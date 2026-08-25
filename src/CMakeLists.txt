@@ -309,6 +309,9 @@ if(BUILD_BITCOIN_BIN)
     bitcoin-res.rc
   )
   add_windows_application_manifest(bitcoin)
+  # The wrapper searches for internal executables in the directory
+  # install_binary_component(... INTERNAL) installs them to.
+  target_compile_definitions(bitcoin PRIVATE BITCOIN_LIBEXECDIR="${CMAKE_INSTALL_LIBEXECDIR}")
   target_link_libraries(bitcoin core_interface bitcoin_common bitcoin_util)
   install_binary_component(bitcoin HAS_MANPAGE)
 endif()

@@ -227,8 +227,8 @@ static void ExecCommand(const std::vector<const char*>& args, std::string_view w
     const bool fallback_os_search{!fs::PathFromString(std::string{wrapper_argv0}).has_parent_path()};
 
     // If wrapper is installed in a bin/ directory, look for target executable
-    // in libexec/
-    (wrapper_dir.filename() == "bin" && try_exec(wrapper_dir.parent_path() / "libexec" / arg0.filename())) ||
+    // in the configured libexec directory (CMAKE_INSTALL_LIBEXECDIR).
+    (wrapper_dir.filename() == "bin" && try_exec(wrapper_dir.parent_path() / BITCOIN_LIBEXECDIR / arg0.filename())) ||
 #ifdef WIN32
     // Otherwise check the "daemon" subdirectory in a windows install.
     (!wrapper_dir.empty() && try_exec(wrapper_dir / "daemon" / arg0.filename())) ||
